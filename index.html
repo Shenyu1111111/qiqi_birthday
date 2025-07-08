@@ -3,100 +3,215 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading... Qiqi's Birthday</title>
+    <title>Disco Noir Experience</title>
     <style>
+        /* ===== DISCO ELYSIUM INSPIRED THEME ===== */
+        :root {
+            --primary: #ff2a6d;   /* Pink-red */
+            --secondary: #05d9e8; /* Cyan */
+            --accent: #d1f7ff;    /* Ice blue */
+            --bg-dark: #0d0221;   /* Deep purple */
+            --bg-light: #1a1b52;  /* Midnight blue */
+            --text-glow: 0 0 10px var(--secondary);
+            --font-main: 'Georgia', serif;
+            --font-accent: 'Courier New', monospace;
+        }
+
+        /* ===== BASE STYLE ===== */
         body {
             margin: 0;
             padding: 0;
-            background-color: #000;
-            font-family: 'Arial', sans-serif;
+            font-family: var(--font-main);
+            background: var(--bg-dark);
+            color: var(--accent);
             overflow: hidden;
+            height: 100vh;
         }
-        
-        .loading-container {
+
+        /* ===== LOADING SCREEN ===== */ 
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, 
+                    var(--bg-light) 0%, 
+                    var(--bg-dark) 70%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease-in-out;
+        }
+
+        .loading-content {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            border: 1px solid rgba(5, 217, 232, 0.3);
+            background: rgba(13, 2, 33, 0.7);
+            box-shadow: 0 0 30px rgba(255, 42, 109, 0.2);
+        }
+
+        /* ===== TYPOGRAPHY ===== */
+        .loading-title {
+            font-size: 2.5rem;
+            font-weight: normal;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            text-shadow: var(--text-glow);
+            font-variant: small-caps;
+            letter-spacing: 3px;
+        }
+
+        .loading-subtitle {
+            font-family: var(--font-accent);
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            border-top: 1px solid var(--secondary);
+            padding-top: 1rem;
+            display: inline-block;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            width: 80%;
+            max-width: 400px;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            margin: 2rem 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, 
+                var(--primary), 
+                var(--secondary));
+            transition: width 0.4s ease-out;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.4),
+                transparent
+            );
+            animation: scan 2.5s infinite linear;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 100% { opacity: 1; }
+            20%, 22%, 24% { opacity: 0.5; }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        #main-content {
+            display: none;
+            height: 100vh;
+            position: relative;
+            background: 
+                radial-gradient(circle at 70% 20%, 
+                    var(--bg-light) 0%, 
+                    var(--bg-dark) 60%);
+        }
+
+        .glitch-text {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-            width: 80%;
+            font-size: 5rem;
+            color: var(--primary);
+            text-shadow: 
+                0 0 10px var(--secondary),
+                0 0 20px var(--primary);
+            animation: flicker 3s infinite;
         }
-        
-        .loading-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #333;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #ff00ff, #00ffff);
-            border-radius: 10px;
-            transition: width 0.3s;
-        }
-        
-        .percentage {
-            color: #fff;
-            font-size: 24px;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
-        }
-        
-        .loading-text {
-            color: #fff;
-            font-size: 30px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px #00ffff, 0 0 20px #ff00ff;
-        }
-        
-        .disco-ball {
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle at 30% 30%, #fff, #aaa);
-            border-radius: 50%;
-            margin: 0 auto 30px;
-            box-shadow: 0 0 20px #fff, 0 0 40px #ff00ff, 0 0 60px #00ffff;
-            animation: spin 2s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .loading-title { font-size: 1.8rem; }
+            .glitch-text { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
-    <div class="loading-container">
-        <div class="disco-ball"></div>
-        <div class="loading-text">GETTING READY FOR QIQI'S DISCO BIRTHDAY!</div>
-        <div class="loading-bar">
-            <div class="progress" id="progress-bar"></div>
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">Reality Loading</h1>
+            <p class="loading-subtitle">Establishing neural connections...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
         </div>
-        <div class="percentage" id="percentage">0%</div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <div class="glitch-text">DISCO MODE</div>
     </div>
 
     <script>
-        let progress = 0;
+        // Disco Elysium-style loading
         const progressBar = document.getElementById('progress-bar');
-        const percentage = document.getElementById('percentage');
+        const loadingScreen = document.getElementById('loading-screen');
+        const phrases = [
+            "Booting thought processes...",
+            "Calibrating moral alignment...",
+            "Accessing memory fragments...",
+            "Synthesizing disco...",
+            "Waking up to the world..."
+        ];
+        const subtitle = document.querySelector('.loading-subtitle');
         
-        const interval = setInterval(() => {
-            progress += Math.random() * 10;
+        let progress = 0;
+        let phraseIndex = 0;
+        
+        const loadInterval = setInterval(() => {
+            progress += Math.random() * 15;
             if (progress > 100) progress = 100;
             
             progressBar.style.width = `${progress}%`;
-            percentage.textContent = `${Math.floor(progress)}%`;
+            
+            // Change loading text at intervals
+            if (progress % 25 === 0) {
+                subtitle.textContent = phrases[phraseIndex % phrases.length];
+                phraseIndex++;
+            }
             
             if (progress === 100) {
-                clearInterval(interval);
+                clearInterval(loadInterval);
                 setTimeout(() => {
-                    window.location.href = "birthday.html";
-                }, 500);
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        document.getElementById('main-content').style.display = 'block';
+                    }, 1500);
+                }, 800);
             }
-        }, 300);
+        }, 400);
     </script>
 </body>
 </html>

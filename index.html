@@ -21,6 +21,8 @@
             --text-glow: 0 0 10px var(--secondary);
             --font-main: 'Georgia', serif;
             --font-accent: 'Courier New', monospace;
+            --loading-color-1: #fff700;
+            --loading-color-2: #0004ec;
         }
 
         /* ===== BASE STYLE ===== */
@@ -36,70 +38,150 @@
         }
 
         /* ===== LOADING SCREEN ===== */
+        /* ===== LOADING SCREEN ===== */
         #loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: linear-gradient(135deg,
+                    var(--loading-color-1) 0%,
+                    /* Yellow start */
+                    #fffc4d 40%,
+                    /* Darker yellow midpoint */
+                    #3a36ff 60%,
+                    /* Blue-purple midpoint */
+                    var(--loading-color-2) 100%);
+            /* Blue end */
+            filter: saturate(1.2);
+            background-size: 400% 400%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: black;
-            color: #00ff41;
-            font-family: 'Courier New', monospace;
             z-index: 1000;
+            animation: gradientFlow 3s ease infinite;
         }
 
-        .loading-content {
-            text-align: center;
-            width: 80%;
-            max-width: 600px;
-            padding: 2rem;
-            border: 1px solid #00ff41;
-            background: rgba(0, 0, 0, 0.7);
-            margin: 0 1rem;
+        .loading-text {
+            color: var(--accent);
+            font-family: var(--font-accent);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-shadow: var(--text-glow);
         }
 
-        .terminal-progress {
-            border: 1px solid #00ff41;
-            padding: 1rem;
-            min-width: 300px;
-            margin-top: 1.5rem;
-            /* Reduced margin */
+        .loading-bar {
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .loading-stick {
+            width: 6px;
+            background: var(--secondary);
+            border-radius: 3px;
+            animation: stickGrow 1.6s infinite ease-in-out;
+        }
+
+        .loading-stick:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .loading-stick:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading-stick:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .loading-stick:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .loading-stick:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .loading-stick:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+
+        .loading-stick:nth-child(7) {
+            animation-delay: 0.7s;
+        }
+
+        .loading-stick:nth-child(8) {
+            animation-delay: 0.8s;
+        }
+
+        .loading-stick:nth-child(9) {
+            animation-delay: 0.9s;
+        }
+
+        .loading-stick:nth-child(10) {
+            animation-delay: 1.0s;
+        }
+
+        .loading-percentage {
+            color: var(--accent);
+            font-family: var(--font-accent);
             font-size: 0.9rem;
-            /* Smaller text */
+            margin-top: 5px;
         }
+
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes stickGrow {
+
+            0%,
+            100% {
+                height: 10px;
+            }
+
+            50% {
+                height: 40px;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         .cursor {
             animation: blink 1s infinite;
         }
 
-        @media (max-width: 480px) {
-            .loading-content {
-                width: 95%;
-                padding: 1rem;
-            }
 
-            .loading-title {
-                font-size: 1.2rem;
-                /* Smaller title */
-            }
 
-            .terminal-progress {
-                padding: 0.6rem;
-                font-size: 0.8rem;
-            }
-
-            .cursor {
-                font-size: 0.9rem;
-                /* Matches text size */
-            }
-
-            @keyframes blink {
-                50% {
-                    opacity: 0;
-                }
+        @keyframes blink {
+            50% {
+                opacity: 0;
             }
         }
 
@@ -411,8 +493,22 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .loading-title {
-                font-size: 1.8rem;
+            .loading-text {
+                font-size: 1rem;
+            }
+
+            .loading-bar {
+                height: 40px;
+                gap: 3px;
+            }
+
+            .loading-stick {
+                width: 4px;
+            }
+
+            .cursor {
+                font-size: 0.8rem;
+                /* Matches text size */
             }
 
             .glitch-text {
@@ -422,32 +518,46 @@
     </style>
 </head>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <body>
+
     <!-- Loading Screen -->
-    <!-- Replace the loading-screen div with this: -->
-    <!-- 
-    
+
+    <!-- Loading Screen -->
     <div id="loading-screen">
-        <div class="loading-content">
-            <h1 class="loading-title">REAILTY LOADING</h1>
-            <p class="loading-subtitle">Establishing neural connections...</p>
-            <div class="disco-progress">
-                <div class="disco-light" id="disco-light-1"></div>
-                <div class="disco-light" id="disco-light-2"></div>
-                <div class="disco-light" id="disco-light-3"></div>
-                <div class="disco-light" id="disco-light-4"></div>
-            </div>
+        <div class="loading-text">LOADING</div>
+        <div class="loading-bar">
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
+            <div class="loading-stick"></div>
         </div>
+        <div class="loading-percentage">0%</div>
     </div>
--->
-    <div id="loading-screen">
-        <div class="loading-content">
-            <h1 class="loading-title">>_ INITIALIZING</h1>
-            <div class="terminal-progress">
-                <span id="terminal-text"></span><span class="cursor">|</span>
-            </div>
-        </div>
-    </div>
+
+
+
+
+
 
     <!-- Main Content -->
     <div id="main-content">
@@ -490,62 +600,70 @@
         <div class="memory-fragments" id="memory-fragments"></div>
     </div>
 
+
+
+
+
+
+
+
+
     <script>
 
-        // Terminal-style loading animation
-        const terminalText = document.getElementById('terminal-text');
+
+
+
+
+
+
+
+
+        // Loading screen animation
         const loadingScreen = document.getElementById('loading-screen');
-        const phrases = [
-            "Mounting disco partitions...",
-            "Decrypting funk algorithms...",
-            "Compiling mirrorball.exe...",
-            "Ready to boogie."
-        ];
-        let i = 0;
-        let currentText = '';
-        let isDeleting = false;
-        let phraseIndex = 0;
+        const loadingPercentage = document.querySelector('.loading-percentage');
+        const loadingSticks = document.querySelectorAll('.loading-stick'); // Fixed variable name
+        let progress = 0;
 
-        function typeWriter() {
-            const fullText = phrases[phraseIndex % phrases.length];
+        // Animate the loading sticks
+        loadingSticks.forEach((stick, index) => {
+            stick.style.animationDelay = `${index * 0.1}s`;
+        });
 
-            if (isDeleting) {
-                currentText = fullText.substring(0, currentText.length - 1);
-            } else {
-                currentText = fullText.substring(0, currentText.length + 1);
-            }
-
-            terminalText.textContent = currentText;
-
-            let typeSpeed = 100;
-            if (isDeleting) typeSpeed = 50;
-
-            if (!isDeleting && currentText === fullText) {
-                typeSpeed = 2000; // Pause at end of phrase
-                isDeleting = true;
-            } else if (isDeleting && currentText === '') {
-                isDeleting = false;
-                phraseIndex++;
-                typeSpeed = 500;
-            }
-
-            setTimeout(typeWriter, typeSpeed);
-        }
-
-        // Start the typing effect
-        setTimeout(() => {
-            typeWriter();
-
-            // Complete loading after all phrases are shown
-            setTimeout(() => {
+        const loadingInterval = setInterval(() => {
+            // Smoother progress increment
+            progress += Math.random() * 5 + 1; // Between 1-6% each step
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(loadingInterval);
                 loadingScreen.style.opacity = '0';
                 setTimeout(() => {
                     loadingScreen.style.display = 'none';
                     document.getElementById('main-content').style.display = 'block';
                     initInteractiveElements();
-                }, 1000);
-            }, phrases.length * 3000); // Adjust timing based on phrase count
-        }, 500);
+                }, 500);
+            }
+            loadingPercentage.textContent = `${Math.min(100, Math.floor(progress))}%`;
+
+            // Make sticks grow as progress increases
+            loadingSticks.forEach(stick => {
+                stick.style.height = `${10 + (progress * 0.4)}px`;
+            });
+        }, 150); // Slightly faster interva
+
+
+        // Initialize interactive elements after loading
+
+
+
+
+
+        // document.getElementById('main-content').style.display = 'block';
+        // initInteractiveElements();
+
+
+
+
+
 
         // Initialize interactive elements after loading
         function initInteractiveElements() {

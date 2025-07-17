@@ -468,20 +468,60 @@
 
         .hidden-object {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            background: var(--primary);
+            width: 60px;
+            /* Increased size for better planet appearance */
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%,
+                    var(--primary) 0%,
+                    #d100d1 50%,
+                    #790079 100%);
             border-radius: 50%;
             opacity: 0;
             transform: scale(0);
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: 0 0 10px var(--primary);
+            box-shadow:
+                0 0 10px var(--primary),
+                inset 5px -5px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+
+            /* Planetary rings */
+            &::before {
+                content: '';
+                position: absolute;
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+                border: 2px solid transparent;
+                border-top-color: rgba(0, 247, 255, 0.6);
+                border-bottom-color: rgba(255, 0, 170, 0.4);
+                border-radius: 50%;
+                transform: rotate(45deg);
+                pointer-events: none;
+                animation: ringRotate 15s linear infinite;
+            }
         }
 
         .hidden-object:hover {
-            transform: scale(1.2);
-            background: var(--secondary);
+            transform: scale(1.2) rotate(10deg);
+            background: radial-gradient(circle at 30% 30%,
+                    var(--secondary) 0%,
+                    #00c3c3 50%,
+                    #007777 100%);
+            box-shadow:
+                0 0 20px var(--secondary),
+                inset 5px -5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes ringRotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .revealed-text {
@@ -882,20 +922,24 @@
 
             // Replace the existing hidden object click event handler with this enhanced version
             hiddenObjects.forEach(obj => {
-                // Make objects appear randomly with a pulsing effect
+                // Make planet objects appear
                 setTimeout(() => {
-                    obj.style.opacity = '0.8';
+                    obj.style.opacity = '0.9';
                     obj.style.transform = 'scale(1)';
-                    // Add continuous pulse animation
-                    obj.style.animation = 'pulse 2s infinite';
                 }, Math.random() * 5000);
 
                 obj.addEventListener('click', function (e) {
-                    // Prevent multiple clicks during animation
-                    if (this.classList.contains('exploding')) return;
-                    this.classList.add('exploding');
+                    // Planet explosion effect
+                    this.style.transform = 'scale(3)';
+                    this.style.opacity = '0';
+                    this.style.boxShadow = `0 0 50px ${this.style.background.includes('var(--primary)') ? 'var(--primary)' : 'var(--secondary)'}`;
 
-                    // Show message in thought bubble with enhanced style
+                    // Create star particles
+                    createParticles(e.clientX, e.clientY,
+                        this.style.background.includes('var(--primary)') ? 'var(--primary)' : 'var(--secondary)');
+
+
+                        // Show message in thought bubble with enhanced style
                     thoughtBubble.textContent = this.dataset.message;
                     thoughtBubble.style.left = `${this.offsetLeft + 40}px`;
                     thoughtBubble.style.top = `${this.offsetTop - 60}px`;

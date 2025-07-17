@@ -8,9 +8,9 @@
     <style>
         /* ===== DISCO ELYSIUM INSPIRED THEME ===== */
         :root {
-            --primary: #ff2a6d;
+            --primary: #ff00aa;
             /* Pink-red */
-            --secondary: #05d9e8;
+            --secondary: #00f7ff;
             /* Cyan */
             --accent: #d1f7ff;
             /* Ice blue */
@@ -66,7 +66,8 @@
 
         .loading-text {
             color: var(--accent);
-            font-family: 'Lucida Console', Monaco, monospace;/* More retro */
+            font-family: 'Lucida Console', Monaco, monospace;
+            /* More retro */
             font-size: 1.0rem;
             margin-bottom: 15px;
             text-shadow: var(--text-glow);
@@ -270,6 +271,10 @@
                     var(--bg-dark) 60%);
             overflow: hidden;
             transition: all 2s ease;
+
+            padding: 0 !important;
+            /* Ne */
+            margin: 0 !important;
         }
 
         .glitch-text {
@@ -277,7 +282,12 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 5rem;
+            width: 100%;
+            /* Ensures text-align works */
+            text-align: center;
+            /* Centers text horizontally */
+            font-size: clamp(2rem, 8vw, 5rem);
+            /* Min: 2rem, Dynamic scaling, Max: 5rem */
             color: var(--primary);
             text-shadow:
                 0 0 10px var(--secondary),
@@ -327,6 +337,65 @@
             transition: all 0.5s ease;
             box-shadow: 0 0 15px rgba(5, 217, 232, 0.3);
             pointer-events: none;
+
+
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+
+
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleMove 800ms ease-out forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes particleMove {
+            to {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        .particle-explosion {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explosionGrow 500ms ease-out forwards;
+            opacity: 0.6;
+            transform: scale(0);
+        }
+
+        @keyframes explosionGrow {
+            to {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        .ripple-effect {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: ripple 800ms ease-out forwards;
+            opacity: 0.8;
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(5);
+                opacity: 0;
+            }
         }
 
         .neon-line {
@@ -512,7 +581,9 @@
             }
 
             .glitch-text {
-                font-size: 3rem;
+                font-size: 2.5rem !important;
+                /* Smaller on mobile */
+                white-space: nowrap;
             }
         }
     </style>
@@ -750,38 +821,100 @@
                 }
             });
 
-            // Make hidden objects interactive
+            // Replace the existing hidden object click event handler with this enhanced version
             hiddenObjects.forEach(obj => {
-                // Make objects appear randomly
+                // Make objects appear randomly with a pulsing effect
                 setTimeout(() => {
                     obj.style.opacity = '0.8';
                     obj.style.transform = 'scale(1)';
+                    // Add continuous pulse animation
+                    obj.style.animation = 'pulse 2s infinite';
                 }, Math.random() * 5000);
 
-                obj.addEventListener('click', function () {
-                    // Show message in thought bubble
+                obj.addEventListener('click', function (e) {
+                    // Prevent multiple clicks during animation
+                    if (this.classList.contains('exploding')) return;
+                    this.classList.add('exploding');
+
+                    // Show message in thought bubble with enhanced style
                     thoughtBubble.textContent = this.dataset.message;
                     thoughtBubble.style.left = `${this.offsetLeft + 40}px`;
                     thoughtBubble.style.top = `${this.offsetTop - 60}px`;
                     thoughtBubble.style.opacity = '1';
                     thoughtBubble.style.transform = 'scale(1)';
+                    thoughtBubble.style.fontSize = '1.1rem';
+                    thoughtBubble.style.padding = '20px';
+                    thoughtBubble.style.border = `2px solid ${this.style.background}`;
 
-                    // Animate the object
-                    this.style.transform = 'scale(1.5)';
+                    // Create explosion effect
+                    const explosion = document.createElement('div');
+                    explosion.className = 'particle-explosion';
+                    explosion.style.left = `${this.offsetLeft + 15}px`;
+                    explosion.style.top = `${this.offsetTop + 15}px`;
+                    explosion.style.backgroundColor = this.style.background;
+                    document.getElementById('main-content').appendChild(explosion);
+
+                    // Create ripple effect
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple-effect';
+                    ripple.style.left = `${this.offsetLeft}px`;
+                    ripple.style.top = `${this.offsetTop}px`;
+                    ripple.style.borderColor = this.style.background;
+                    document.getElementById('main-content').appendChild(ripple);
+
+                    // Animate the object with more dramatic effects
+                    this.style.transform = 'scale(3)';
                     this.style.opacity = '0';
+                    this.style.boxShadow = `0 0 30px ${this.style.background}`;
+
+                    // Create particles
+                    createParticles(this.offsetLeft + 15, this.offsetTop + 15, this.style.background);
+
+                    // Sound effect (uncomment if you add audio)
+                    // new Audio('pop.mp3').play().catch(e => console.log('Audio error:', e));
 
                     // Track clicks and check for world transition
                     clickedObjects++;
                     checkWorldTransition();
 
-                    // Hide after animation
+                    // Clean up after animations
                     setTimeout(() => {
                         this.style.display = 'none';
                         thoughtBubble.style.opacity = '0';
                         thoughtBubble.style.transform = 'scale(0)';
+                        explosion.remove();
+                        ripple.remove();
                     }, 1000);
                 });
             });
+
+            // Add these new functions to create additional effects
+            function createParticles(x, y, color) {
+                const particleCount = 20;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    particle.style.backgroundColor = color;
+
+                    // Random direction and speed
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 2 + Math.random() * 3;
+                    const lifetime = 800 + Math.random() * 400;
+
+                    particle.style.setProperty('--x', `${Math.cos(angle) * speed}px`);
+                    particle.style.setProperty('--y', `${Math.sin(angle) * speed}px`);
+
+                    document.getElementById('main-content').appendChild(particle);
+
+                    // Remove particle after animation
+                    setTimeout(() => {
+                        particle.remove();
+                    }, lifetime);
+                }
+            }
+
 
             // Check if should transition to light world
             function checkWorldTransition() {

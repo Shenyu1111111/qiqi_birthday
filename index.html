@@ -260,21 +260,80 @@
             }
         }
 
-        /* ===== MAIN CONTENT ===== */
         #main-content {
-            display: none;
+            display: block;
             height: 100vh;
             position: relative;
             background:
-                radial-gradient(circle at 70% 20%,
-                    var(--bg-light) 0%,
-                    var(--bg-dark) 60%);
+                /* Base Stars (more, brighter) */
+                radial-gradient(1.5px 1.5px at 10% 20%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(1px 1px at 90% 80%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(2px 2px at 30% 70%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(1px 1px at 70% 30%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(1.5px 1.5px at 20% 40%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+                radial-gradient(1px 1px at 80% 60%, rgba(255, 255, 255, 0.9) 50%, transparent 50%),
+
+                /* Nebula Core (Bright & Detailed) */
+                radial-gradient(400px 400px at 20% 30%,
+                    rgba(138, 43, 226, 0.7),
+                    /* Purple */
+                    rgba(75, 0, 130, 0.5),
+                    /* Indigo */
+                    transparent 70%),
+
+                /* Secondary Nebula (Complementary Colors) */
+                radial-gradient(500px 500px at 70% 60%,
+                    rgba(65, 105, 225, 0.6),
+                    /* Royal Blue */
+                    rgba(0, 191, 255, 0.4),
+                    /* Deep Sky Blue */
+                    transparent 70%),
+
+                /* Faint Nebula Streaks (For Depth) */
+                radial-gradient(300px 800px at 50% 80%,
+                    rgba(147, 112, 219, 0.3),
+                    /* Medium Purple */
+                    transparent 80%),
+
+                /* Base Space Color */
+                linear-gradient(to bottom, #090A0F, #0F0A1A);
+
             overflow: hidden;
             transition: all 2s ease;
-
             padding: 0 !important;
-            /* Ne */
             margin: 0 !important;
+        }
+
+        #main-content::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(600px 600px at 40% 50%,
+                    rgba(138, 43, 226, 0.4),
+                    transparent 70%);
+            animation: nebulaDrift 20s infinite alternate ease-in-out;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        @keyframes nebulaDrift {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: translate(-50px, 20px);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translate(50px, -20px);
+                opacity: 0.6;
+            }
         }
 
         .glitch-text {

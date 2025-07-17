@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disco Noir Experience</title>
+    <title>Disco Noir Dreaming</title>
     <style>
         /* ===== DISCO ELYSIUM INSPIRED THEME ===== */
         :root {
-            --primary: #ff2a6d;   /* Pink-red */
-            --secondary: #05d9e8; /* Cyan */
-            --accent: #d1f7ff;    /* Ice blue */
-            --bg-dark: #0d0221;   /* Deep purple */
-            --bg-light: #1a1b52;  /* Midnight blue */
+            --primary: #ff2a6d;
+            /* Pink-red */
+            --secondary: #05d9e8;
+            /* Cyan */
+            --accent: #d1f7ff;
+            /* Ice blue */
+            --bg-dark: #0d0221;
+            /* Deep purple */
+            --bg-light: #1a1b52;
+            /* Midnight blue */
             --text-glow: 0 0 10px var(--secondary);
             --font-main: 'Georgia', serif;
             --font-accent: 'Courier New', monospace;
@@ -29,130 +35,146 @@
             cursor: crosshair;
         }
 
-        /* ===== LOADING SCREEN ===== */ 
+        /* ===== LOADING SCREEN ===== */
         #loading-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 30%, 
-                    var(--bg-light) 0%, 
-                    var(--bg-dark) 70%);
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: black;
+            color: #00ff41;
+            font-family: 'Courier New', monospace;
             z-index: 1000;
-            transition: opacity 1.5s ease-in-out;
         }
 
         .loading-content {
             text-align: center;
+            width: 80%;
             max-width: 600px;
             padding: 2rem;
-            border: 1px solid rgba(5, 217, 232, 0.3);
-            background: rgba(13, 2, 33, 0.7);
-            box-shadow: 0 0 30px rgba(255, 42, 109, 0.2);
-            transition: transform 0.3s ease;
+            border: 1px solid #00ff41;
+            background: rgba(0, 0, 0, 0.7);
+            margin: 0 1rem;
         }
 
-        .loading-content:hover {
-            transform: scale(1.02);
+        .terminal-progress {
+            border: 1px solid #00ff41;
+            padding: 1rem;
+            min-width: 300px;
+            margin-top: 1.5rem;
+            /* Reduced margin */
+            font-size: 0.9rem;
+            /* Smaller text */
         }
 
-        /* ===== TYPOGRAPHY ===== */
-        .loading-title {
-            font-size: 2.5rem;
-            font-weight: normal;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            text-shadow: var(--text-glow);
-            font-variant: small-caps;
-            letter-spacing: 3px;
-            transition: all 0.3s ease;
+        .cursor {
+            animation: blink 1s infinite;
         }
 
-        .loading-title:hover {
-            color: var(--secondary);
-            text-shadow: 0 0 15px var(--primary);
+        @media (max-width: 480px) {
+            .loading-content {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .loading-title {
+                font-size: 1.2rem;
+                /* Smaller title */
+            }
+
+            .terminal-progress {
+                padding: 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .cursor {
+                font-size: 0.9rem;
+                /* Matches text size */
+            }
+
+            @keyframes blink {
+                50% {
+                    opacity: 0;
+                }
+            }
         }
 
-        .loading-subtitle {
-            font-family: var(--font-accent);
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-bottom: 3rem;
-            border-top: 1px solid var(--secondary);
-            padding-top: 1rem;
-            display: inline-block;
-            transition: all 0.5s ease;
-        }
 
-        /* ===== PROGRESS BAR ===== */
-        .progress-container {
-            width: 80%;
-            max-width: 400px;
-            height: 4px;
-            background: rgba(255,255,255,0.05);
-            margin: 2rem 0;
-            overflow: hidden;
-            position: relative;
-        }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, 
-                var(--primary), 
-                var(--secondary));
-            transition: width 0.4s ease-out;
-            position: relative;
-        }
-
-        .progress-bar::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255,255,255,0.4),
-                transparent
-            );
-            animation: scan 2.5s infinite linear;
-        }
 
         /* ===== ANIMATIONS ===== */
         @keyframes scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 100% { opacity: 1; }
-            20%, 22%, 24% { opacity: 0.5; }
+
+            0%,
+            19%,
+            21%,
+            23%,
+            25%,
+            100% {
+                opacity: 1;
+            }
+
+            20%,
+            22%,
+            24% {
+                opacity: 0.5;
+            }
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         @keyframes discoGlow {
-            0% { box-shadow: 0 0 10px var(--primary); }
-            33% { box-shadow: 0 0 20px var(--secondary); }
-            66% { box-shadow: 0 0 15px var(--accent); }
-            100% { box-shadow: 0 0 10px var(--primary); }
+            0% {
+                box-shadow: 0 0 10px var(--primary);
+            }
+
+            33% {
+                box-shadow: 0 0 20px var(--secondary);
+            }
+
+            66% {
+                box-shadow: 0 0 15px var(--accent);
+            }
+
+            100% {
+                box-shadow: 0 0 10px var(--primary);
+            }
         }
 
         /* ===== MAIN CONTENT ===== */
@@ -160,9 +182,9 @@
             display: none;
             height: 100vh;
             position: relative;
-            background: 
-                radial-gradient(circle at 70% 20%, 
-                    var(--bg-light) 0%, 
+            background:
+                radial-gradient(circle at 70% 20%,
+                    var(--bg-light) 0%,
                     var(--bg-dark) 60%);
             overflow: hidden;
             transition: all 2s ease;
@@ -175,7 +197,7 @@
             transform: translate(-50%, -50%);
             font-size: 5rem;
             color: var(--primary);
-            text-shadow: 
+            text-shadow:
                 0 0 10px var(--secondary),
                 0 0 20px var(--primary);
             animation: flicker 3s infinite, float 6s ease-in-out infinite;
@@ -186,7 +208,7 @@
 
         .glitch-text:hover {
             color: var(--secondary);
-            text-shadow: 
+            text-shadow:
                 0 0 15px var(--primary),
                 0 0 30px var(--secondary);
             animation: flicker 1s infinite, pulse 2s ease-in-out infinite;
@@ -197,12 +219,12 @@
             position: absolute;
             width: 100px;
             height: 100px;
-            background: radial-gradient(circle at 30% 30%, 
-                white 0%, 
-                rgba(255,255,255,0.3) 50%, 
-                transparent 70%);
+            background: radial-gradient(circle at 30% 30%,
+                    white 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    transparent 70%);
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(255,255,255,0.5);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
             animation: discoGlow 4s infinite, float 5s ease-in-out infinite;
             opacity: 0;
             transition: opacity 1s ease;
@@ -278,7 +300,7 @@
             height: 120px;
             background: linear-gradient(135deg, #555, #333);
             border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             display: none;
             z-index: 20;
             transform-style: preserve-3d;
@@ -309,7 +331,7 @@
 
         .tape:hover {
             transform: translateY(-5px) rotate(5deg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .tape-label {
@@ -373,7 +395,7 @@
             text-align: center;
             font-size: 1.1rem;
             line-height: 1.4;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
         }
 
         .sun {
@@ -389,19 +411,40 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .loading-title { font-size: 1.8rem; }
-            .glitch-text { font-size: 3rem; }
+            .loading-title {
+                font-size: 1.8rem;
+            }
+
+            .glitch-text {
+                font-size: 3rem;
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Loading Screen -->
+    <!-- Replace the loading-screen div with this: -->
+    <!-- 
+    
     <div id="loading-screen">
         <div class="loading-content">
-            <h1 class="loading-title">Reality Loading</h1>
+            <h1 class="loading-title">REAILTY LOADING</h1>
             <p class="loading-subtitle">Establishing neural connections...</p>
-            <div class="progress-container">
-                <div class="progress-bar" id="progress-bar"></div>
+            <div class="disco-progress">
+                <div class="disco-light" id="disco-light-1"></div>
+                <div class="disco-light" id="disco-light-2"></div>
+                <div class="disco-light" id="disco-light-3"></div>
+                <div class="disco-light" id="disco-light-4"></div>
+            </div>
+        </div>
+    </div>
+-->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">>_ INITIALIZING</h1>
+            <div class="terminal-progress">
+                <span id="terminal-text"></span><span class="cursor">|</span>
             </div>
         </div>
     </div>
@@ -409,27 +452,28 @@
     <!-- Main Content -->
     <div id="main-content">
         <div class="glitch-text" id="disco-mode">DISCO MODE</div>
-        
+
         <!-- Dynamic elements that will appear on interaction -->
         <div class="disco-ball" id="disco-ball"></div>
         <div class="thought-bubble" id="thought-bubble"></div>
         <div class="neon-line" id="neon-line-h"></div>
         <div class="neon-line" id="neon-line-v"></div>
-        
+
         <!-- Hidden interactive objects -->
         <div class="hidden-object" style="top: 30%; left: 20%;" data-message="Memory fragment accessed"></div>
         <div class="hidden-object" style="top: 70%; left: 80%;" data-message="Disco rhythm detected"></div>
         <div class="hidden-object" style="top: 20%; left: 70%;" data-message="Neural pathway activated"></div>
         <div class="hidden-object" style="top: 80%; left: 30%;" data-message="Retrospective analysis complete"></div>
-        
+
         <!-- Revealed text elements -->
-        <div class="revealed-text" id="secret-message" style="top: 10%; left: 10%; width: 80%; text-align: center; font-size: 1.2rem;">
+        <div class="revealed-text" id="secret-message"
+            style="top: 10%; left: 10%; width: 80%; text-align: center; font-size: 1.2rem;">
             The dance of consciousness continues in the dark...
         </div>
-        
+
         <!-- Light World Elements -->
         <div class="sun" id="sun"></div>
-        
+
         <div class="tape-player" id="tape-player">
             <div class="tape-deck">
                 <div class="tape" id="tape">
@@ -442,50 +486,66 @@
                 <div class="control-btn" id="rewind-btn">◀◀</div>
             </div>
         </div>
-        
+
         <div class="memory-fragments" id="memory-fragments"></div>
     </div>
 
     <script>
-        // Disco Elysium-style loading
-        const progressBar = document.getElementById('progress-bar');
+
+        // Terminal-style loading animation
+        const terminalText = document.getElementById('terminal-text');
         const loadingScreen = document.getElementById('loading-screen');
         const phrases = [
-            "Booting thought processes...",
-            "Calibrating moral alignment...",
-            "Accessing memory fragments...",
-            "Synthesizing disco...",
-            "Waking up to the world..."
+            "Mounting disco partitions...",
+            "Decrypting funk algorithms...",
+            "Compiling mirrorball.exe...",
+            "Ready to boogie."
         ];
-        const subtitle = document.querySelector('.loading-subtitle');
-        
-        let progress = 0;
+        let i = 0;
+        let currentText = '';
+        let isDeleting = false;
         let phraseIndex = 0;
-        
-        const loadInterval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-            
-            progressBar.style.width = `${progress}%`;
-            
-            // Change loading text at intervals
-            if (progress % 25 === 0) {
-                subtitle.textContent = phrases[phraseIndex % phrases.length];
+
+        function typeWriter() {
+            const fullText = phrases[phraseIndex % phrases.length];
+
+            if (isDeleting) {
+                currentText = fullText.substring(0, currentText.length - 1);
+            } else {
+                currentText = fullText.substring(0, currentText.length + 1);
+            }
+
+            terminalText.textContent = currentText;
+
+            let typeSpeed = 100;
+            if (isDeleting) typeSpeed = 50;
+
+            if (!isDeleting && currentText === fullText) {
+                typeSpeed = 2000; // Pause at end of phrase
+                isDeleting = true;
+            } else if (isDeleting && currentText === '') {
+                isDeleting = false;
                 phraseIndex++;
+                typeSpeed = 500;
             }
-            
-            if (progress === 100) {
-                clearInterval(loadInterval);
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+
+        // Start the typing effect
+        setTimeout(() => {
+            typeWriter();
+
+            // Complete loading after all phrases are shown
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
                 setTimeout(() => {
-                    loadingScreen.style.opacity = '0';
-                    setTimeout(() => {
-                        loadingScreen.style.display = 'none';
-                        document.getElementById('main-content').style.display = 'block';
-                        initInteractiveElements();
-                    }, 1500);
-                }, 800);
-            }
-        }, 400);
+                    loadingScreen.style.display = 'none';
+                    document.getElementById('main-content').style.display = 'block';
+                    initInteractiveElements();
+                }, 1000);
+            }, phrases.length * 3000); // Adjust timing based on phrase count
+        }, 500);
 
         // Initialize interactive elements after loading
         function initInteractiveElements() {
@@ -496,7 +556,7 @@
             const neonLineV = document.getElementById('neon-line-v');
             const hiddenObjects = document.querySelectorAll('.hidden-object');
             const secretMessage = document.getElementById('secret-message');
-            
+
             // Light world elements
             const tapePlayer = document.getElementById('tape-player');
             const tape = document.getElementById('tape');
@@ -505,7 +565,7 @@
             const rewindBtn = document.getElementById('rewind-btn');
             const memoryFragments = document.getElementById('memory-fragments');
             const sun = document.getElementById('sun');
-            
+
             // Track clicked objects
             let clickedObjects = 0;
             let lightWorldActivated = false;
@@ -518,14 +578,14 @@
                 "Click. Rewind. Repeat. The ritual continues",
                 "Analog ghosts in a digital age"
             ];
-            
+
             // Make disco ball appear on click
-            discoMode.addEventListener('click', function(e) {
+            discoMode.addEventListener('click', function (e) {
                 // Position disco ball at click location
                 discoBall.style.left = `${e.clientX - 50}px`;
                 discoBall.style.top = `${e.clientY - 50}px`;
                 discoBall.style.opacity = '1';
-                
+
                 // Show thought bubble with random message
                 const messages = [
                     "Disco is truth.",
@@ -539,30 +599,30 @@
                 thoughtBubble.style.top = `${e.clientY - 30}px`;
                 thoughtBubble.style.opacity = '1';
                 thoughtBubble.style.transform = 'scale(1)';
-                
+
                 // Hide after delay
                 setTimeout(() => {
                     thoughtBubble.style.opacity = '0';
                     thoughtBubble.style.transform = 'scale(0)';
                 }, 3000);
-                
+
                 // Create mirror effect with neon lines
                 neonLineH.style.width = `${window.innerWidth}px`;
                 neonLineH.style.left = '0';
                 neonLineH.style.top = `${e.clientY}px`;
                 neonLineH.style.opacity = '0.7';
-                
+
                 neonLineV.style.height = `${window.innerHeight}px`;
                 neonLineV.style.left = `${e.clientX}px`;
                 neonLineV.style.top = '0';
                 neonLineV.style.opacity = '0.7';
-                
+
                 // Fade out lines
                 setTimeout(() => {
                     neonLineH.style.opacity = '0';
                     neonLineV.style.opacity = '0';
                 }, 1000);
-                
+
                 // Random chance to show secret message
                 if (Math.random() > 0.7) {
                     secretMessage.style.opacity = '1';
@@ -571,7 +631,7 @@
                     }, 5000);
                 }
             });
-            
+
             // Make hidden objects interactive
             hiddenObjects.forEach(obj => {
                 // Make objects appear randomly
@@ -579,23 +639,23 @@
                     obj.style.opacity = '0.8';
                     obj.style.transform = 'scale(1)';
                 }, Math.random() * 5000);
-                
-                obj.addEventListener('click', function() {
+
+                obj.addEventListener('click', function () {
                     // Show message in thought bubble
                     thoughtBubble.textContent = this.dataset.message;
                     thoughtBubble.style.left = `${this.offsetLeft + 40}px`;
                     thoughtBubble.style.top = `${this.offsetTop - 60}px`;
                     thoughtBubble.style.opacity = '1';
                     thoughtBubble.style.transform = 'scale(1)';
-                    
+
                     // Animate the object
                     this.style.transform = 'scale(1.5)';
                     this.style.opacity = '0';
-                    
+
                     // Track clicks and check for world transition
                     clickedObjects++;
                     checkWorldTransition();
-                    
+
                     // Hide after animation
                     setTimeout(() => {
                         this.style.display = 'none';
@@ -604,37 +664,37 @@
                     }, 1000);
                 });
             });
-            
+
             // Check if should transition to light world
             function checkWorldTransition() {
-                if(clickedObjects >= 4 && !lightWorldActivated) {
+                if (clickedObjects >= 4 && !lightWorldActivated) {
                     transitionToLightWorld();
                 }
             }
-            
+
             // Transition to the light world
             function transitionToLightWorld() {
                 lightWorldActivated = true;
                 const mainContent = document.getElementById('main-content');
-                
+
                 // Switch to light color scheme
                 mainContent.classList.add('light-world');
-                
+
                 // Fade in sun
                 sun.style.opacity = '0.6';
                 sun.style.left = `${window.innerWidth - 200}px`;
                 sun.style.top = '100px';
-                
+
                 // Show tape player
                 tapePlayer.style.display = 'block';
-                tapePlayer.style.left = `${window.innerWidth/2 - 100}px`;
-                tapePlayer.style.top = `${window.innerHeight/2 - 60}px`;
-                
+                tapePlayer.style.left = `${window.innerWidth / 2 - 100}px`;
+                tapePlayer.style.top = `${window.innerHeight / 2 - 60}px`;
+
                 // Change main text
                 discoMode.textContent = "RECALL MODE";
                 discoMode.style.color = "#333";
                 discoMode.style.textShadow = "2px 2px 4px rgba(0,0,0,0.2)";
-                
+
                 // Background animation
                 let hue = 0;
                 const bgInterval = setInterval(() => {
@@ -645,25 +705,25 @@
                         hsl(${(hue + 120) % 360}, 60%, 95%)`;
                 }, 100);
             }
-            
+
             // Tape player interactions
             function playMemoryFragment() {
-                if(!lightWorldActivated) return;
-                
+                if (!lightWorldActivated) return;
+
                 const memory = document.createElement('div');
                 memory.className = 'memory-text';
                 memory.textContent = memoryTexts[Math.floor(Math.random() * memoryTexts.length)];
-                
+
                 memory.style.left = `${Math.random() * (window.innerWidth - 300) + 50}px`;
                 memory.style.top = `${Math.random() * (window.innerHeight - 100) + 50}px`;
                 memory.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
-                
+
                 memoryFragments.appendChild(memory);
-                
+
                 setTimeout(() => {
                     memory.style.opacity = '1';
                 }, 100);
-                
+
                 setTimeout(() => {
                     memory.style.opacity = '0';
                     setTimeout(() => {
@@ -671,7 +731,7 @@
                     }, 1000);
                 }, 5000);
             }
-            
+
             function stopMemoryPlayback() {
                 document.querySelectorAll('.memory-text').forEach(text => {
                     text.style.opacity = '0';
@@ -680,22 +740,22 @@
                     }, 1000);
                 });
             }
-            
+
             function rewindMemory() {
                 stopMemoryPlayback();
                 setTimeout(() => {
-                    for(let i = 0; i < 3; i++) {
+                    for (let i = 0; i < 3; i++) {
                         setTimeout(playMemoryFragment, i * 800);
                     }
                 }, 500);
             }
-            
+
             // Set up tape player controls
             tape.addEventListener('click', playMemoryFragment);
             playBtn.addEventListener('click', playMemoryFragment);
             stopBtn.addEventListener('click', stopMemoryPlayback);
             rewindBtn.addEventListener('click', rewindMemory);
-            
+
             // Random disco ball appearance
             setInterval(() => {
                 if (Math.random() > 0.8 && !lightWorldActivated) {
@@ -707,7 +767,7 @@
                     }, 2000);
                 }
             }, 5000);
-            
+
             // Mouse move effect - subtle glow follows cursor
             document.addEventListener('mousemove', (e) => {
                 const glow = document.createElement('div');
@@ -718,7 +778,7 @@
                 glow.style.top = `${e.clientY - 10}px`;
                 glow.style.opacity = '0.3';
                 document.getElementById('main-content').appendChild(glow);
-                
+
                 setTimeout(() => {
                     glow.style.opacity = '0';
                     setTimeout(() => {
@@ -729,4 +789,5 @@
         }
     </script>
 </body>
+
 </html>

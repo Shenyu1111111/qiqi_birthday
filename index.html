@@ -341,10 +341,11 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
+            transform: translateY(-50%);
+            width: auto;
             /* Ensures text-align works */
-            text-align: center;
+            text-align: left;
+            left: 15%;
             /* Centers text horizontally */
             font-size: clamp(2rem, 8vw, 5rem);
             /* Min: 2rem, Dynamic scaling, Max: 5rem */
@@ -703,10 +704,51 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <body>
 
-    <!-- Loading Screen -->
-
+    
     <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-text">LOADING</div>
@@ -741,15 +783,15 @@
         <div class="neon-line" id="neon-line-v"></div>
 
         <!-- Hidden interactive objects -->
-        <div class="hidden-object" style="top: 30%; left: 20%;" data-message="Memory fragment accessed"></div>
-        <div class="hidden-object" style="top: 70%; left: 80%;" data-message="Disco rhythm detected"></div>
-        <div class="hidden-object" style="top: 20%; left: 70%;" data-message="Neural pathway activated"></div>
-        <div class="hidden-object" style="top: 80%; left: 30%;" data-message="Retrospective analysis complete"></div>
+        <div class="hidden-object" style="top: 30%; left: 20%;" data-message="Lost in the beat, lost in the night."></div>
+        <div class="hidden-object" style="top: 70%; left: 80%;" data-message="Stealing hearts with spinning wheels."></div>
+        <div class="hidden-object" style="top: 20%; left: 70%;" data-message="Midnight moves and champagne rains."></div>
+        <div class="hidden-object" style="top: 80%; left: 30%;" data-message="We don’t stop till we hit the ground."></div>
 
         <!-- Revealed text elements -->
         <div class="revealed-text" id="secret-message"
             style="top: 10%; left: 10%; width: 80%; text-align: center; font-size: 1.2rem;">
-            The dance of consciousness continues in the dark...
+            Drag me to paradise....
         </div>
 
         <!-- Light World Elements -->
@@ -770,6 +812,49 @@
 
         <div class="memory-fragments" id="memory-fragments"></div>
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -859,13 +944,13 @@
             let clickedObjects = 0;
             let lightWorldActivated = false;
             const memoryTexts = [
-                "The last summer before everything changed...",
-                "Her laughter was like wind chimes in July",
+                "After party, after party...",
+                "Angel Falling in Hell...",
                 "We thought the cassette would last forever",
-                "Play it again. Maybe this time it'll be different",
+                "Play it again. Maybe this time it'll be different...",
                 "The machine remembers what the mind forgets",
                 "Click. Rewind. Repeat. The ritual continues",
-                "Analog ghosts in a digital age"
+                "You're like a sudden downpour"
             ];
 
             // Make disco ball appear on click
@@ -877,11 +962,11 @@
 
                 // Show thought bubble with random message
                 const messages = [
-                    "Disco is truth.",
-                    "The mirrorballs are watching.",
-                    "Neon runs in my veins.",
-                    "Dance or die trying.",
-                    "The night never ends."
+                    "Where the rhythm sets you free,",
+                    "Under neon light we pray,",
+                    "Hands up to the mirror ball,",
+                    "Let the music take us away.",
+                    "Come and dance with me."
                 ];
                 thoughtBubble.textContent = messages[Math.floor(Math.random() * messages.length)];
                 thoughtBubble.style.left = `${e.clientX + 30}px`;
@@ -893,7 +978,7 @@
                 setTimeout(() => {
                     thoughtBubble.style.opacity = '0';
                     thoughtBubble.style.transform = 'scale(0)';
-                }, 3000);
+                }, 3500);
 
                 // Create mirror effect with neon lines
                 neonLineH.style.width = `${window.innerWidth}px`;
@@ -988,7 +1073,7 @@
                         thoughtBubble.style.transform = 'scale(0)';
                         explosion.remove();
                         ripple.remove();
-                    }, 1000);
+                    }, 3500);
                 });
             });
 
@@ -1046,7 +1131,7 @@
                 tapePlayer.style.top = `${window.innerHeight / 2 - 60}px`;
 
                 // Change main text
-                discoMode.textContent = "RECALL MODE";
+                discoMode.textContent = "PARADISE MODE";
                 discoMode.style.color = "#333";
                 discoMode.style.textShadow = "2px 2px 4px rgba(0,0,0,0.2)";
 
